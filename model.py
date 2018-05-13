@@ -7,7 +7,8 @@ from keras.layers.convolutional import Convolution2D, Cropping2D
 from keras.layers.pooling import MaxPooling2D
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from random import shuffle
+from sklearn.utils import shuffle
+# from random import shuffle
 
 samples  = []
 with open('./data/driving_log.csv') as csvfile:
@@ -23,41 +24,36 @@ def generator(samples, batch_size=32):
         shuffle(samples)
         for offset in range(0, num_samples, batch_size):
             batch_samples = samples[offset : offset + batch_size]
-            images = []
-            measurements = []
-            for batch_sample in batch_samples:
-                for i in range(3):
-                    source_path = batch_sample[i]
-                    image = cv2.imread(source_path)
-                    images.append(image)
-                    measurement = float(batch_sample[3])
-                    measurements.append(measurement)
 
-                augmented_images, augmented_measurements = [], []
-                for image, measurement in zip(images, measurements):
-                    augmented_images.append(image)
-                    augmented_measurements.append(measurement)
-                    augmented_images.append(cv2.flip(image, 1))
-                    augmented_measurements.append(measurement * -1.0)
+            images, angles = [], []
+            for batch_sample in batch_samples:
+                    name = './data/IMG/' + batch_sample[0].split('/')[-1]
+                    center_image = cv2.imread(name)
+                    center_angle = float(batch_sample[3])
+                    images.append(center_image)
+                    angles.append(center_angle)
+
+                    center_image_flipped = np.fliplr(center_image)
+                    center_angle_flipped = -center_angle
+                    images.append(center_image_flipped)
+                    angles.append(center_angle_flipped)
+
 
             # trim image to only see section with road
-            X_train = np.array(augmented_images)
-            y_train = np.array(augmented_measurements)
-            yield X_train, y_train
+            X_train = np.array(images)
+            y_train = np.array(angles)
+            yield shuffle(X_train, y_train)
 
 # compile and train the model using the generator function
-train_generator      = generator(train_samples, batch_size=128)
-validation_generator = generator(validation_samples, batch_size=128)
-
-# Dimensions of the images
-ch, row, col = 3, 160, 320
+train_generator      = generator(train_samples, batch_size=32)
+validation_generator = generator(validation_samples, batch_size=32)
 
 # Initialization
 model = Sequential()
 # Crop the top image which unused
-model.add(Lambda(lambda x: x / 255.0 - 0.5, input_shape=(row, col, ch), output_shape=(row, col, ch)))
+model.add(Cropping2D(cropping=((60,25), (0,0)), input_shape=(160,320,3)))
 # Normalized the image
-model.add(Cropping2D(cropping=((60, 25), (0, 0))))
+model.add(Lambda(lambda x: (x / 255.0) - 0.5))
 
 model.add(Convolution2D(24, 5, 5, subsample=(2,2), activation="relu"))
 model.add(Convolution2D(36, 5, 5, subsample=(2,2), activation="relu"))
