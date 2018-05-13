@@ -19,7 +19,7 @@ train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
 def generator(samples, batch_size=32):
     num_samples = len(samples)
-    while 1: # Loop forever so the generator never terminates
+    while True: # Loop forever so the generator never terminates
         shuffle(samples)
         for offset in range(0, num_samples, batch_size):
             batch_samples = samples[offset : offset + batch_size]
@@ -27,10 +27,10 @@ def generator(samples, batch_size=32):
             measurements = []
             for batch_sample in batch_samples:
                 for i in range(3):
-                    source_path = line[i]
+                    source_path = batch_sample[i]
                     image = cv2.imread(source_path)
                     images.append(image)
-                    measurement = float(line[3])
+                    measurement = float(batch_sample[3])
                     measurements.append(measurement)
 
                 augmented_images, augmented_measurements = [], []
