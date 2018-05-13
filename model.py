@@ -78,7 +78,7 @@ history_object = model.fit_generator(train_generator,
                                      samples_per_epoch = len(train_samples) * 6, #data augmentation
                                      validation_data = validation_generator,
                                      nb_val_samples = len(validation_samples),
-                                     nb_epoch=10)
+                                     nb_epoch=2)
 
 model.save('model_nvidia.h5')
 # model.save('model_nvidia_udacity.h5')
