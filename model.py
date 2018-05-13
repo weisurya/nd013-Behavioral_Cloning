@@ -12,8 +12,8 @@ from sklearn.utils import shuffle
 plt.switch_backend('agg')
 
 samples  = []
-with open('./data/driving_log.csv') as csvfile:
-# with open('./recorded_data/driving_log.csv') as csvfile:
+# with open('./data/driving_log.csv') as csvfile:
+with open('./recorded_data/driving_log.csv') as csvfile:
     reader = csv.reader(csvfile)
     for line in reader:
         samples.append(line)
@@ -31,9 +31,9 @@ def generator(samples, batch_size=32, correction=0.2):
             for batch_sample in batch_samples:
                 for i in range(3):
                     # Linux
-                    name = './data/IMG/' + batch_sample[i].split('/')[-1]
+                    # name = './data/IMG/' + batch_sample[i].split('/')[-1]
                     # Windows
-                    # name = './recorded_data/IMG/' + batch_sample[i].split('\\')[-1]
+                    name = './recorded_data/IMG/' + batch_sample[i].split('\\')[-1]
                     image = cv2.imread(name)
                     angle = float(batch_sample[3])
                     if i == 1:
@@ -93,5 +93,6 @@ plt.title('model mean squared error loss')
 plt.ylabel('mean squared error loss')
 plt.xlabel('epoch')
 plt.legend(['training set', 'validation set'], loc='upper right')
-# plt.show()
-plt.savefig('loss.jpg')
+
+# plt.savefig('model_nvidia.jpg')
+plt.savefig('model_nvidia_udacity.jpg')
