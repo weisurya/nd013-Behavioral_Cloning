@@ -11,7 +11,7 @@ from sklearn.utils import shuffle
 # from random import shuffle
 
 samples  = []
-with open('./data/driving_log.csv') as csvfile:
+with open('./recorded_data/driving_log.csv') as csvfile:
     reader = csv.reader(csvfile)
     for line in reader:
         samples.append(line)
