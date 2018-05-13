@@ -11,7 +11,7 @@ from sklearn.utils import shuffle
 # from random import shuffle
 
 samples  = []
-with open('./recorded_data/driving_log.csv') as csvfile:
+with open('./data/driving_log.csv') as csvfile:
     reader = csv.reader(csvfile)
     for line in reader:
         samples.append(line)
@@ -33,7 +33,7 @@ def generator(samples, batch_size=32):
                     images.append(center_image)
                     angles.append(center_angle)
 
-                    center_image_flipped = np.fliplr(center_image)
+                    center_image_flipped = cv2.flip(center_image, 1)
                     center_angle_flipped = -center_angle
                     images.append(center_image_flipped)
                     angles.append(center_angle_flipped)
