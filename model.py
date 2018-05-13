@@ -30,9 +30,9 @@ def generator(samples, batch_size=32, correction=0.2):
             for batch_sample in batch_samples:
                 for i in range(3):
                     # Linux
-                    # name = './data/IMG/' + batch_sample[i].split('/')[-1]
+                    name = './data/IMG/' + batch_sample[i].split('/')[-1]
                     # Windows
-                    name = './recorded_data/IMG/' + batch_sample[i].split('\\')[-1]
+                    # name = './recorded_data/IMG/' + batch_sample[i].split('\\')[-1]
                     image = cv2.imread(name)
                     angle = float(batch_sample[3])
                     if i == 1:
@@ -79,8 +79,8 @@ history_object = model.fit_generator(train_generator,
                                      nb_val_samples = len(validation_samples),
                                      nb_epoch=10)
 
-# model.save('model.h5')
-model.save('model_nvidia.h5')
+# model.save('model_nvidia.h5')
+model.save('model_nvidia_udacity.h5')
 
 ### print the keys contained in the history object
 print(history_object.history.keys())
