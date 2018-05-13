@@ -30,7 +30,8 @@ def generator(samples, batch_size=32, correction=0.2):
             for batch_sample in batch_samples:
                 for i in range(3):
                     name = './recorded_data/IMG/' + batch_sample[i].split('\\')[-1]
-                    image = cv2.imread(name)
+                    bgr_image = cv2.imread(name)
+                    image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
                     angle = float(batch_sample[3])
                     if i == 1:
                         angle += correction

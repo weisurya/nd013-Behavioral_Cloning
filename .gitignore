@@ -1,7 +1,9 @@
 windows_sim/*
 output/*
+output_bgr/*
 output_udacity/*
 data.zip
 windows-sim.zip
 output.mp4
+output_bgr.mp4
 output_udacity.mp4
