@@ -80,8 +80,8 @@ history_object = model.fit_generator(train_generator,
                                      nb_val_samples = len(validation_samples),
                                      nb_epoch=10)
 
-# model.save('model_nvidia.h5')
-model.save('model_nvidia_udacity.h5')
+model.save('model_nvidia.h5')
+# model.save('model_nvidia_udacity.h5')
 
 ### print the keys contained in the history object
 print(history_object.history.keys())
@@ -94,5 +94,5 @@ plt.ylabel('mean squared error loss')
 plt.xlabel('epoch')
 plt.legend(['training set', 'validation set'], loc='upper right')
 
-# plt.savefig('model_nvidia.jpg')
-plt.savefig('model_nvidia_udacity.jpg')
+plt.savefig('model_nvidia.jpg')
+# plt.savefig('model_nvidia_udacity.jpg')
