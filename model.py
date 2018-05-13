@@ -49,12 +49,15 @@ def generator(samples, batch_size=32):
 train_generator      = generator(train_samples, batch_size=128)
 validation_generator = generator(validation_samples, batch_size=128)
 
+# Dimensions of the images
+ch, row, col = 3, 160, 320
+
 # Initialization
 model = Sequential()
 # Crop the top image which unused
-model.add(Cropping2D(cropping=((70,25), (0,0)), input_shape=(160, 320, 3)))
+model.add(Lambda(lambda x: x / 255.0 - 0.5, input_shape=(row, col, ch), output_shape=(row, col, ch)))
 # Normalized the image
-model.add(Lambda(lambda x: x / 255.0 - 0.5))
+model.add(Cropping2D(cropping=((60, 25), (0, 0))))
 
 model.add(Convolution2D(24, 5, 5, subsample=(2,2), activation="relu"))
 model.add(Convolution2D(36, 5, 5, subsample=(2,2), activation="relu"))
