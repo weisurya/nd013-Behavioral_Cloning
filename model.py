@@ -8,7 +8,8 @@ from keras.layers.pooling import MaxPooling2D
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
-# from random import shuffle
+
+plt.switch_backend('agg')
 
 samples  = []
 with open('./recorded_data/driving_log.csv') as csvfile:
